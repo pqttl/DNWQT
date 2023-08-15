@@ -1,0 +1,13 @@
+﻿//Link api: api/Order/TARGetOrderPaging?IntPageIndex=1&IntPageSize=10&keyword=
+        [HttpGet(STR_URI_Order.TARGetOrderPaging.STR)]
+        public IActionResult TARGetOrderPaging([FromQuery] GetOrderPaging_VMQuery mRequest)
+
+--> HttpGet [FromQuery] sẽ lấy giá trị biến từ đường link, link có tên biến không cần phân biệt hoa thường
+
+//Link api: api/Login/TARAuthenticate
+        [HttpPost(STR_URI_Login.TARAuthenticate.STR)]
+        [AllowAnonymous]
+        public IActionResult TARAuthenticate([FromBody] LoginRequest_ViewModel mRequest)
+--> HttpPost [FromBody] sẽ lấy giá trị từ form ở html
+
+Chỉ dùng HttpGet và HttpPort khi trong cùng 1 trang có nút button submit, còn không thì ko cần thêm

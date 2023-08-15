@@ -1,0 +1,85 @@
+﻿@model String[]
+@{
+    var strName = DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.STR;
+    if (strName == "")
+    {
+    }
+    
+    string strType = Model[0];
+    string strKeyAndFunction = Model[1];
+
+    string idDatepicker = nameof(idDatepicker)+"_"+strKeyAndFunction;
+    string idInputStartDate = nameof(idInputStartDate)+"_"+strKeyAndFunction;
+    string idInputEndDate = nameof(idInputEndDate)+"_"+strKeyAndFunction;
+    //string voidSetupDatePicker = nameof(voidSetupDatePicker)+"_"+strKeyAndFunction;
+}
+
+@if (strType == "jsNewFunction")
+{
+
+    <script type="text/javascript">
+
+        @*function voidSetupDatePicker@(strKeyAndFunction)() {
+            $('#@idDatepicker').datepicker({
+                    format: "dd/mm/yyyy",
+                    weekStart: 1,
+                    todayBtn: "linked",
+                    clearBtn: true,
+                    language: "vi",
+                    daysOfWeekHighlighted: "0",
+                    autoclose: true,
+                    todayHighlight: true
+                });
+        }*@
+
+        $('#@idDatepicker').datepicker({
+                    format: "dd/mm/yyyy",
+                    weekStart: 1,
+                    todayBtn: "linked",
+                    clearBtn: true,
+                    language: "vi",
+                    daysOfWeekHighlighted: "0",
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+    </script>
+
+}
+
+@if (strType == "js")
+{
+
+    <script type="text/javascript">
+
+        voidSetupDatePickerForId('@idDatepicker');
+
+    </script>
+
+}
+
+@if (strType == "html")
+{
+
+    <div class="input-daterange row" id="@idDatepicker">
+        <div class="card position-relative col mx-1 px-0">
+
+            @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.PATH
+        , new string[] {"Từ 00h00 ngày" })
+
+
+            <input id="@idInputStartDate" type="text" class="input-sm form-control mt-1 border-0" name="start">
+        </div>
+
+        <div class="card position-relative col mx-1 px-0">
+
+            @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.PATH
+        , new string[] {"Đến 23h59 ngày" })
+
+
+            <input id="@idInputEndDate" type="text" class="input-sm form-control mt-1 border-0" name="end">
+        </div>
+
+    </div>
+
+}

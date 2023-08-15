@@ -1,0 +1,251 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vanilla JS Datepicker Demo</title>
+    <style type="text/css">svg:not(:root).svg-inline--fa{overflow:visible}.svg-inline--fa{display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em}.svg-inline--fa.fa-lg{vertical-align:-.225em}.svg-inline--fa.fa-w-1{width:.0625em}.svg-inline--fa.fa-w-2{width:.125em}.svg-inline--fa.fa-w-3{width:.1875em}.svg-inline--fa.fa-w-4{width:.25em}.svg-inline--fa.fa-w-5{width:.3125em}.svg-inline--fa.fa-w-6{width:.375em}.svg-inline--fa.fa-w-7{width:.4375em}.svg-inline--fa.fa-w-8{width:.5em}.svg-inline--fa.fa-w-9{width:.5625em}.svg-inline--fa.fa-w-10{width:.625em}.svg-inline--fa.fa-w-11{width:.6875em}.svg-inline--fa.fa-w-12{width:.75em}.svg-inline--fa.fa-w-13{width:.8125em}.svg-inline--fa.fa-w-14{width:.875em}.svg-inline--fa.fa-w-15{width:.9375em}.svg-inline--fa.fa-w-16{width:1em}.svg-inline--fa.fa-w-17{width:1.0625em}.svg-inline--fa.fa-w-18{width:1.125em}.svg-inline--fa.fa-w-19{width:1.1875em}.svg-inline--fa.fa-w-20{width:1.25em}.svg-inline--fa.fa-pull-left{margin-right:.3em;width:auto}.svg-inline--fa.fa-pull-right{margin-left:.3em;width:auto}.svg-inline--fa.fa-border{height:1.5em}.svg-inline--fa.fa-li{width:2em}.svg-inline--fa.fa-fw{width:1.25em}.fa-layers svg.svg-inline--fa{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.fa-layers{display:inline-block;height:1em;position:relative;text-align:center;vertical-align:-.125em;width:1em}.fa-layers svg.svg-inline--fa{-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter,.fa-layers-text{display:inline-block;position:absolute;text-align:center}.fa-layers-text{left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter{background-color:#ff253a;border-radius:1em;-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;height:1.5em;line-height:1;max-width:5em;min-width:1.5em;overflow:hidden;padding:.25em;right:0;text-overflow:ellipsis;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-bottom-right{bottom:0;right:0;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom right;transform-origin:bottom right}.fa-layers-bottom-left{bottom:0;left:0;right:auto;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom left;transform-origin:bottom left}.fa-layers-top-right{right:0;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-top-left{left:0;right:auto;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top left;transform-origin:top left}.fa-lg{font-size:1.3333333333em;line-height:.75em;vertical-align:-.0667em}.fa-xs{font-size:.75em}.fa-sm{font-size:.875em}.fa-1x{font-size:1em}.fa-2x{font-size:2em}.fa-3x{font-size:3em}.fa-4x{font-size:4em}.fa-5x{font-size:5em}.fa-6x{font-size:6em}.fa-7x{font-size:7em}.fa-8x{font-size:8em}.fa-9x{font-size:9em}.fa-10x{font-size:10em}.fa-fw{text-align:center;width:1.25em}.fa-ul{list-style-type:none;margin-left:2.5em;padding-left:0}.fa-ul>li{position:relative}.fa-li{left:-2em;position:absolute;text-align:center;width:2em;line-height:inherit}.fa-border{border:solid .08em #eee;border-radius:.1em;padding:.2em .25em .15em}.fa-pull-left{float:left}.fa-pull-right{float:right}.fa.fa-pull-left,.fab.fa-pull-left,.fal.fa-pull-left,.far.fa-pull-left,.fas.fa-pull-left{margin-right:.3em}.fa.fa-pull-right,.fab.fa-pull-right,.fal.fa-pull-right,.far.fa-pull-right,.fas.fa-pull-right{margin-left:.3em}.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear}.fa-pulse{-webkit-animation:fa-spin 1s infinite steps(8);animation:fa-spin 1s infinite steps(8)}@@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@@keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.fa-rotate-90{-webkit-transform:rotate(90deg);transform:rotate(90deg)}.fa-rotate-180{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.fa-rotate-270{-webkit-transform:rotate(270deg);transform:rotate(270deg)}.fa-flip-horizontal{-webkit-transform:scale(-1,1);transform:scale(-1,1)}.fa-flip-vertical{-webkit-transform:scale(1,-1);transform:scale(1,-1)}.fa-flip-both,.fa-flip-horizontal.fa-flip-vertical{-webkit-transform:scale(-1,-1);transform:scale(-1,-1)}:root .fa-flip-both,:root .fa-flip-horizontal,:root .fa-flip-vertical,:root .fa-rotate-180,:root .fa-rotate-270,:root .fa-rotate-90{-webkit-filter:none;filter:none}.fa-stack{display:inline-block;height:2em;position:relative;width:2.5em}.fa-stack-1x,.fa-stack-2x{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.svg-inline--fa.fa-stack-1x{height:1em;width:1.25em}.svg-inline--fa.fa-stack-2x{height:2em;width:2.5em}.fa-inverse{color:#fff}.sr-only{border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.sr-only-focusable:active,.sr-only-focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}.svg-inline--fa .fa-primary{fill:var(--fa-primary-color,currentColor);opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa .fa-secondary{fill:var(--fa-secondary-color,currentColor);opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-primary{opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-secondary{opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa mask .fa-primary,.svg-inline--fa mask .fa-secondary{fill:#000}.fad.fa-inverse{color:#fff}</style><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://raw.githack.com/mymth/vanillajs-datepicker/v1.2.0/dist/css/datepicker-bs5.css">
+    <script defer="" src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+    <style type="text/css">
+      main .section {
+        padding: 3rem 1.5rem;
+      }
+      aside {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: -300px;
+        width: 300px;
+        overflow: auto;
+        background-color: #fff;
+        box-shadow: inset 1px 1px rgba(0, 0, 0, 10%);
+        transition: right 0.3s;
+      }
+      .open aside {
+        right: 0;
+      }
+      aside hr {
+        margin-top: 0.5rem;
+      }
+      .code-wrap {
+        position: relative;
+      }
+      .code-wrap pre {
+        background-color: whitesmoke;
+        padding: 1.25rem 1.5rem;
+      }
+      .code-wrap pre:not(.is-active) {
+        height: 0;
+        overflow: hidden;
+        opacity: 0.5;
+      }
+      .code-wrap .collapse-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: auto;
+        cursor: pointer;
+        padding: 0.125rem 0.25rem;
+        font-size: 0.75rem;
+      }
+
+      .toggle-btn {
+        position: fixed;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 1.5rem;
+        background-color: #fff;
+        line-height: 1.5rem;
+        border: 1px solid rgba(0, 0, 0, 10%);
+        border-radius: 2px;
+        box-shadow: 1px 1px rgba(0, 0, 0, 10%);
+        cursor: pointer;
+      }
+      .toggle-btn::before {
+        content: '\25c0';
+        padding-left: 0.25rem;
+      }
+      .open .toggle-btn::before {
+        content: '\25b6';
+      }
+
+      @@media (min-width: 481px) {
+        main {
+          margin-right: 38.1966%;
+        }
+        aside {
+          right: 0;
+          width: 38.1966%;
+        }
+        .toggle-btn {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="section container-fluid">
+        <div class="row">
+          <div class="col">
+            
+            <h1 class="title">Demo</h1>
+            <div id="sandbox"><div class="input-group mb-3 date input-daterange">
+  <input type="text" name="range-start" class="form-control datepicker-input"><div class="datepicker datepicker-dropdown datepicker-orient-left datepicker-orient-bottom" style="left: 24px; top: 178.031px;"><div class="datepicker-picker"><div class="datepicker-header"><div class="datepicker-title" style="display: none;"></div><div class="datepicker-controls"><button type="button" class="btn prev-btn">«</button><button type="button" class="btn view-switch">Tháng 11 2022</button><button type="button" class="btn next-btn">»</button></div></div><div class="datepicker-main"><div class="datepicker-view"><div class="days"><div class="days-of-week"><span class="dow">T2</span><span class="dow">T3</span><span class="dow">T4</span><span class="dow">T5</span><span class="dow">T6</span><span class="dow">T7</span><span class="dow">CN</span></div><div class="datepicker-grid"><span class="datepicker-cell day prev" data-date="1667149200000">31</span><span class="datepicker-cell day" data-date="1667235600000">1</span><span class="datepicker-cell day" data-date="1667322000000">2</span><span class="datepicker-cell day" data-date="1667408400000">3</span><span class="datepicker-cell day" data-date="1667494800000">4</span><span class="datepicker-cell day" data-date="1667581200000">5</span><span class="datepicker-cell day highlighted" data-date="1667667600000">6</span><span class="datepicker-cell day" data-date="1667754000000">7</span><span class="datepicker-cell day" data-date="1667840400000">8</span><span class="datepicker-cell day" data-date="1667926800000">9</span><span class="datepicker-cell day" data-date="1668013200000">10</span><span class="datepicker-cell day" data-date="1668099600000">11</span><span class="datepicker-cell day" data-date="1668186000000">12</span><span class="datepicker-cell day highlighted" data-date="1668272400000">13</span><span class="datepicker-cell day" data-date="1668358800000">14</span><span class="datepicker-cell day" data-date="1668445200000">15</span><span class="datepicker-cell day" data-date="1668531600000">16</span><span class="datepicker-cell day" data-date="1668618000000">17</span><span class="datepicker-cell day" data-date="1668704400000">18</span><span class="datepicker-cell day" data-date="1668790800000">19</span><span class="datepicker-cell day highlighted" data-date="1668877200000">20</span><span class="datepicker-cell day today focused" data-date="1668963600000">21</span><span class="datepicker-cell day" data-date="1669050000000">22</span><span class="datepicker-cell day" data-date="1669136400000">23</span><span class="datepicker-cell day" data-date="1669222800000">24</span><span class="datepicker-cell day" data-date="1669309200000">25</span><span class="datepicker-cell day" data-date="1669395600000">26</span><span class="datepicker-cell day highlighted" data-date="1669482000000">27</span><span class="datepicker-cell day" data-date="1669568400000">28</span><span class="datepicker-cell day" data-date="1669654800000">29</span><span class="datepicker-cell day" data-date="1669741200000">30</span><span class="datepicker-cell day next" data-date="1669827600000">1</span><span class="datepicker-cell day next" data-date="1669914000000">2</span><span class="datepicker-cell day next" data-date="1670000400000">3</span><span class="datepicker-cell day next highlighted" data-date="1670086800000">4</span><span class="datepicker-cell day next" data-date="1670173200000">5</span><span class="datepicker-cell day next" data-date="1670259600000">6</span><span class="datepicker-cell day next" data-date="1670346000000">7</span><span class="datepicker-cell day next" data-date="1670432400000">8</span><span class="datepicker-cell day next" data-date="1670518800000">9</span><span class="datepicker-cell day next" data-date="1670605200000">10</span><span class="datepicker-cell day next highlighted" data-date="1670691600000">11</span></div></div></div></div><div class="datepicker-footer"><div class="datepicker-controls"><button type="button" class="btn today-btn" style="">Hôm nay</button><button type="button" class="btn clear-btn" style="">Xóa</button></div></div></div></div>
+  <span class="input-group-text">to</span>
+  <input type="text" name="range-end" class="form-control datepicker-input"><div class="datepicker datepicker-dropdown datepicker-orient-left datepicker-orient-bottom" style="left: 298.188px; top: 38px;"><div class="datepicker-picker"><div class="datepicker-header"><div class="datepicker-title" style="display: none;"></div><div class="datepicker-controls"><button type="button" class="btn prev-btn">«</button><button type="button" class="btn view-switch">Tháng 11 2022</button><button type="button" class="btn next-btn">»</button></div></div><div class="datepicker-main"><div class="datepicker-view"><div class="days"><div class="days-of-week"><span class="dow">T2</span><span class="dow">T3</span><span class="dow">T4</span><span class="dow">T5</span><span class="dow">T6</span><span class="dow">T7</span><span class="dow">CN</span></div><div class="datepicker-grid"><span class="datepicker-cell day prev" data-date="1667149200000">31</span><span class="datepicker-cell day" data-date="1667235600000">1</span><span class="datepicker-cell day" data-date="1667322000000">2</span><span class="datepicker-cell day" data-date="1667408400000">3</span><span class="datepicker-cell day" data-date="1667494800000">4</span><span class="datepicker-cell day" data-date="1667581200000">5</span><span class="datepicker-cell day highlighted" data-date="1667667600000">6</span><span class="datepicker-cell day" data-date="1667754000000">7</span><span class="datepicker-cell day" data-date="1667840400000">8</span><span class="datepicker-cell day" data-date="1667926800000">9</span><span class="datepicker-cell day" data-date="1668013200000">10</span><span class="datepicker-cell day" data-date="1668099600000">11</span><span class="datepicker-cell day" data-date="1668186000000">12</span><span class="datepicker-cell day highlighted" data-date="1668272400000">13</span><span class="datepicker-cell day" data-date="1668358800000">14</span><span class="datepicker-cell day" data-date="1668445200000">15</span><span class="datepicker-cell day" data-date="1668531600000">16</span><span class="datepicker-cell day" data-date="1668618000000">17</span><span class="datepicker-cell day" data-date="1668704400000">18</span><span class="datepicker-cell day" data-date="1668790800000">19</span><span class="datepicker-cell day highlighted" data-date="1668877200000">20</span><span class="datepicker-cell day today focused" data-date="1668963600000">21</span><span class="datepicker-cell day" data-date="1669050000000">22</span><span class="datepicker-cell day" data-date="1669136400000">23</span><span class="datepicker-cell day" data-date="1669222800000">24</span><span class="datepicker-cell day" data-date="1669309200000">25</span><span class="datepicker-cell day" data-date="1669395600000">26</span><span class="datepicker-cell day highlighted" data-date="1669482000000">27</span><span class="datepicker-cell day" data-date="1669568400000">28</span><span class="datepicker-cell day" data-date="1669654800000">29</span><span class="datepicker-cell day" data-date="1669741200000">30</span><span class="datepicker-cell day next" data-date="1669827600000">1</span><span class="datepicker-cell day next" data-date="1669914000000">2</span><span class="datepicker-cell day next" data-date="1670000400000">3</span><span class="datepicker-cell day next highlighted" data-date="1670086800000">4</span><span class="datepicker-cell day next" data-date="1670173200000">5</span><span class="datepicker-cell day next" data-date="1670259600000">6</span><span class="datepicker-cell day next" data-date="1670346000000">7</span><span class="datepicker-cell day next" data-date="1670432400000">8</span><span class="datepicker-cell day next" data-date="1670518800000">9</span><span class="datepicker-cell day next" data-date="1670605200000">10</span><span class="datepicker-cell day next highlighted" data-date="1670691600000">11</span></div></div></div></div><div class="datepicker-footer"><div class="datepicker-controls"><button type="button" class="btn today-btn" style="">Hôm nay</button><button type="button" class="btn clear-btn" style="">Xóa</button></div></div></div></div>
+</div></div>
+          </div>
+        </div>
+        
+      </section>
+    </main>
+
+    
+
+    <div class="toggle-btn"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://raw.githack.com/mymth/vanillajs-datepicker/v1.2.0/dist/js/datepicker-full.js"></script>
+    <script src="https://raw.githack.com/mymth/vanillajs-datepicker/v1.2.0/demo/live-demo.js"></script>
+    <script>
+      /*global $ initialize onChangeType onChnageDirection onChangeInputOption onChangeInputOption onChangeTextareaOption onClickCheckboxOptions switchPicker */
+      window.templates = {
+        input: `<div class="mb-3"><input type="text" class="form-control date"></div>`,
+        inline: `<div class="date mb-3"></div>`,
+        range: `<div class="input-group mb-3 date input-daterange">
+  <input type="text" name="range-start" class="form-control">
+  <span class="input-group-text">to</span>
+  <input type="text" name="range-end" class="form-control">
+</div>`,
+      };
+      window.beforeShowFns = {
+beforeShowDay(date) {
+  if (date.getMonth() == new Date().getMonth()) {
+    switch (date.getDate()) {
+      case 4:
+        return {
+          content: '<span data-bs-toggle="tooltip" title="Example tooltip">4</span>',
+          classes: 'bg-info'
+        };
+      case 8:
+        return false;
+      case 12:
+        return "text-success";
+    }
+  }
+},
+beforeShowMonth(date) {
+  switch (date.getMonth()) {
+    case 6:
+      if (date.getFullYear() === new Date().getFullYear()) {
+        return {content: '🎉'};
+      }
+      break;
+    case 8:
+      return false;
+  }
+},
+beforeShowYear(date) {
+  switch (date.getFullYear()) {
+    case 2017:
+      return false;
+    case 2020:
+      return {content: '<span data-bs-toggle="tooltip" data-placement="bottom" title="Tooltip text">2020</span>'};
+  }
+},
+beforeShowDecade(date) {
+  switch (date.getFullYear()) {
+    case 2000:
+      return false;
+    case 2100:
+      return {
+        content: '💯',
+        classes: 'bg-success',
+      };
+  }
+},
+      };
+      window.buttonClass = 'btn';
+      window.addError = function addError(el, message) {
+        el.classList.add('is-invalid');
+        el.parentElement.querySelector('.invalid-feedback').textContent = message;
+      }
+      window.removeErrors = function removeErrors(el) {
+        el.classList.remove('is-invalid');
+        el.parentElement.querySelector('.invalid-feedback').textContent = '';
+      }
+
+      initialize();
+
+      document.getElementById('types').querySelectorAll('input').forEach((el) => {
+        el.addEventListener('change', onChangeType);
+      });
+
+      document.getElementById('direction').querySelectorAll('input').forEach((el) => {
+        el.addEventListener('change', onChnageDirection);
+      });
+
+      const optsForm = document.getElementById('options');
+      optsForm.querySelectorAll('input[type=text], input[type=radio], select').forEach((el) => {
+        el.addEventListener('change', onChangeInputOption);
+      });
+      optsForm.querySelectorAll('textarea').forEach((el) => {
+        el.addEventListener('change', onChangeTextareaOption);
+      });
+      optsForm.querySelectorAll('input[type=checkbox]').forEach((el) => {
+        el.addEventListener('click', onClickCheckboxOptions);
+      });
+
+      switchPicker('input');
+
+      let tooltipElems = [];
+      const initTooltips = () => {
+        const elems = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        elems.forEach((el) => {
+          if (tooltipElems.includes(el)) {
+            return;
+          }
+          new bootstrap.Tooltip(el);
+        });
+        tooltipElems = [...elems];
+      };
+      setInterval(initTooltips, 1000);
+      initTooltips();
+    </script>
+
+@*<script src="../dist/js/locales/ar-DZ.js"></script><script src="../dist/js/locales/ar-tn.js"></script><script src="../dist/js/locales/ar.js"></script>
+<script src="../dist/js/locales/az.js"></script><script src="../dist/js/locales/bg.js"></script><script src="../dist/js/locales/bm.js"></script>
+<script src="../dist/js/locales/bn.js"></script><script src="../dist/js/locales/br.js"></script><script src="../dist/js/locales/bs.js"></script>
+<script src="../dist/js/locales/ca.js"></script><script src="../dist/js/locales/cs.js"></script><script src="../dist/js/locales/cy.js"></script>
+<script src="../dist/js/locales/da.js"></script><script src="../dist/js/locales/de.js"></script><script src="../dist/js/locales/el.js"></script>
+<script src="../dist/js/locales/en-AU.js"></script><script src="../dist/js/locales/en-CA.js"></script><script src="../dist/js/locales/en-GB.js"></script>
+<script src="../dist/js/locales/en-IE.js"></script><script src="../dist/js/locales/en-NZ.js"></script><script src="../dist/js/locales/en-ZA.js"></script>
+<script src="../dist/js/locales/eo.js"></script><script src="../dist/js/locales/es.js"></script><script src="../dist/js/locales/et.js"></script>
+<script src="../dist/js/locales/eu.js"></script><script src="../dist/js/locales/fa.js"></script><script src="../dist/js/locales/fi.js"></script>
+<script src="../dist/js/locales/fo.js"></script><script src="../dist/js/locales/fr-CH.js"></script><script src="../dist/js/locales/fr.js"></script>
+<script src="../dist/js/locales/gl.js"></script><script src="../dist/js/locales/he.js"></script><script src="../dist/js/locales/hi.js"></script>
+<script src="../dist/js/locales/hr.js"></script><script src="../dist/js/locales/hu.js"></script><script src="../dist/js/locales/hy.js"></script>
+<script src="../dist/js/locales/id.js"></script><script src="../dist/js/locales/is.js"></script><script src="../dist/js/locales/it-CH.js"></script>
+<script src="../dist/js/locales/it.js"></script><script src="../dist/js/locales/ja.js"></script><script src="../dist/js/locales/ka.js"></script>
+<script src="../dist/js/locales/kk.js"></script><script src="../dist/js/locales/km.js"></script><script src="../dist/js/locales/ko.js"></script>
+<script src="../dist/js/locales/lt.js"></script><script src="../dist/js/locales/lv.js"></script><script src="../dist/js/locales/me.js"></script>
+<script src="../dist/js/locales/mk.js"></script><script src="../dist/js/locales/mn.js"></script><script src="../dist/js/locales/mr.js"></script>
+<script src="../dist/js/locales/ms.js"></script><script src="../dist/js/locales/nl-BE.js"></script><script src="../dist/js/locales/nl.js"></script>
+<script src="../dist/js/locales/no.js"></script><script src="../dist/js/locales/oc.js"></script><script src="../dist/js/locales/pl.js"></script>
+<script src="../dist/js/locales/pt-BR.js"></script><script src="../dist/js/locales/pt.js"></script><script src="../dist/js/locales/ro.js"></script>
+<script src="../dist/js/locales/ru.js"></script><script src="../dist/js/locales/si.js"></script><script src="../dist/js/locales/sk.js"></script>
+<script src="../dist/js/locales/sl.js"></script><script src="../dist/js/locales/sq.js"></script><script src="../dist/js/locales/sr-latn.js"></script>
+<script src="../dist/js/locales/sr.js"></script><script src="../dist/js/locales/sv.js"></script><script src="../dist/js/locales/sw.js"></script>
+<script src="../dist/js/locales/ta.js"></script><script src="../dist/js/locales/tg.js"></script><script src="../dist/js/locales/th.js"></script>
+<script src="../dist/js/locales/tk.js"></script><script src="../dist/js/locales/tr.js"></script><script src="../dist/js/locales/uk.js"></script>
+<script src="../dist/js/locales/uz-cyrl.js"></script><script src="../dist/js/locales/uz-latn.js"></script>
+<script src="../dist/js/locales/zh-CN.js"></script><script src="../dist/js/locales/zh-TW.js"></script>*@
+<script src="https://raw.githack.com/mymth/vanillajs-datepicker/v1.2.0/dist/js/locales/vi.js"></script>
+  
+</body></html>

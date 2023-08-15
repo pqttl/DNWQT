@@ -1,0 +1,389 @@
+﻿@model String[]
+@{
+    var strName = DNQT.ToolCommon.QTConstants.PartialView.Home._PVIndex.STR;
+    if (strName == "")
+    {
+    }
+
+    string strNamePart = Model[0];
+    
+    string idChkStartStatistic = nameof(idChkStartStatistic);
+    
+    string JsonResultGetDataForStatisticByTime = nameof(DNQT.AdminApp.Controllers.HomeController.JsonResultGetDataForStatisticByTime);
+    string JsonResultLoadDateRangeForChart = nameof(DNQT.AdminApp.Controllers.HomeController.JsonResultLoadDateRangeForChart);
+
+    string JsonResultShowChartMaxQuantityByCustomer = nameof(DNQT.AdminApp.Controllers.HomeController.JsonResultShowChartMaxQuantityByCustomer);
+    string JsonResultLoadPolarAreaChart = nameof(DNQT.AdminApp.Controllers.HomeController.JsonResultLoadPolarAreaChart);
+
+    var lstStrKeyPartialView = new List<string>();
+    lstStrKeyPartialView.Add(idChkStartStatistic);
+    lstStrKeyPartialView.Add(JsonResultShowChartMaxQuantityByCustomer);
+    
+    List<string> idInputStartDate = DNQT.ToolCommon.BLLTools.LstStrIdByListKey(
+    nameof(idInputStartDate),lstStrKeyPartialView);
+    List<string> idInputEndDate = DNQT.ToolCommon.BLLTools.LstStrIdByListKey(
+    nameof(idInputEndDate),lstStrKeyPartialView);
+    
+    string strPartListDatePicker = nameof(strPartListDatePicker);
+    
+}
+
+@if (strNamePart == "js")
+{
+
+    @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.PATH
+        , new string[] {"js",idChkStartStatistic })
+;
+
+    {
+        string strTemp = nameof(DNQT.AdminApp.Controllers.HomeController);
+        string strController = strTemp.Substring(0, strTemp.LastIndexOf("Controller"));
+        string strAction = nameof(DNQT.AdminApp.Controllers.HomeController.PartialViewIndex);
+
+        string strUrlLoadHtml = Url.Action(strAction, strController) 
+    + $"?arrayStrInput=html{strPartListDatePicker}";
+
+        string strIdScriptJs = JsonResultLoadDateRangeForChart;
+        string strUrlLoadJs = Url.Action(strIdScriptJs);
+
+        <script type="text/javascript">
+
+                function @(JsonResultGetDataForStatisticByTime)(resultJson) {
+                    
+                    var arrayStrInput = [];
+                    arrayStrInput.push('js@(strPartListDatePicker)');//jsNewFunction
+
+                    voidLoadHtmlAndRunJs("idDivListDateRanger",'@strUrlLoadHtml',"@strIdScriptJs"
+                    ,'@strUrlLoadJs',arrayStrInput,resultJson);
+
+                }
+
+                function @(strIdScriptJs)(resultJson,resultJsonBefore) {
+
+                    //$('#idBody').append(resultJson.strJs);
+
+                    //document.body.innerHTML += resultJson.strJs;
+
+
+                    //var scripts = document.querySelectorAll("script");
+                    //let text = scripts[scripts.length - 1].textContent;
+                    //(0, eval)(text);
+                    var newScript = document.createElement("script");
+                    newScript.setAttribute("id", "@strIdScriptJs");
+                    newScript.innerHTML = resultJson.strJs;
+                    document.body.appendChild(newScript);
+                    //jQuery.globalEval( text );
+
+                    voidSetDateForIdByString("@(idInputEndDate[1])",resultJsonBefore.strTimeEnd6Month);
+                    voidSetDateForIdByString("@(idInputStartDate[1])",resultJsonBefore.strTimeStart6Month);
+
+                }
+
+        </script>
+
+    }
+
+
+    {
+        //string strTemp = "";
+
+        <script type="text/javascript">
+
+            function voidAfterUseAjaxWith1Result(resultJson,resultJsonBefore) {
+                if (resultJson.blnStatusJs == false) {
+                    alert(resultJson.strMess);
+                }
+
+                if (resultJson.blnStatusJs == true) {
+                    
+                    if (resultJson.strNameVoid == '@JsonResultLoadPolarAreaChart') {
+    @(JsonResultLoadPolarAreaChart)(resultJson,resultJsonBefore);
+                    }
+                    
+                    if (resultJson.strNameVoid == '@JsonResultLoadDateRangeForChart') {
+    @(JsonResultLoadDateRangeForChart)(resultJson,resultJsonBefore);
+                    }
+
+                }
+
+                setCollapseForId($("#idButtonClose"), false);
+
+                $('#idDivStaticBackdropLivePopup').modal('hide');
+
+            }
+            
+        </script>
+
+}
+
+    {
+        string strPartChart = nameof(strPartChart);
+
+        string strPartPolarAreaChart = nameof(strPartChart) + "_" + JsonResultShowChartMaxQuantityByCustomer;
+        string idDivChartAndNote = nameof(idDivChartAndNote) + "_" + JsonResultShowChartMaxQuantityByCustomer;
+
+        string strTemp = nameof(DNQT.AdminApp.Controllers.BaseController);
+        string strController = strTemp.Substring(0, strTemp.LastIndexOf("Controller"));
+        string strAction = nameof(DNQT.AdminApp.Controllers.BaseController.PartialViewPolarAreaChart);
+
+        string strUrlLoadHtml = Url.Action(strAction, strController)
+    + $"?arrayStrInput=html{strPartPolarAreaChart}"
+//+ $"&arrayStrInput={JsonResultShowChartMaxQuantityByCustomer}"
+//+ $"&arrayStrInput="
++ "";
+
+        string strIdScriptJs = JsonResultLoadPolarAreaChart;
+        string strUrlLoadJs = Url.Action(strIdScriptJs);
+
+        strAction = nameof(DNQT.AdminApp.Controllers.BaseController.PartialViewSortMaxToMin);
+        string strUrlLoadHtmlMaxToMin = Url.Action(strAction, strController) + "?arrayStrInput=1311";
+
+        <script type="text/javascript">
+
+            function voidAfterUseAjax(resultJson) {
+                if (resultJson.blnStatusJs == false) {
+                    alert(resultJson.strMess);
+                }
+
+                if (resultJson.blnStatusJs == true) {
+
+                    if (resultJson.strNameVoid == '@JsonResultShowChartMaxQuantityByCustomer') {
+                        
+                        var arrayStrInput = [];
+                        arrayStrInput.push('js@(strPartPolarAreaChart)');
+                        //arrayStrInput.push('@strIdScriptJs');
+                        //arrayStrInput.push('@strUrlLoadHtmlMaxToMin');
+
+                        voidLoadHtmlAndRunJs("@idDivChartAndNote",'@strUrlLoadHtml',"@strIdScriptJs"
+                        ,'@strUrlLoadJs',arrayStrInput,resultJson);
+                        //-> voidAfterUseAjaxWith1Result
+                        //-> JsonResultLoadPolarAreaChart
+                        return;
+
+                    }
+
+                    if (resultJson.strNameVoid == '@JsonResultGetDataForStatisticByTime') {
+    @(JsonResultGetDataForStatisticByTime)(resultJson);
+                        return;
+                    }
+
+                }
+
+                setCollapseForId($("#idButtonClose"), false);
+
+                $('#idDivStaticBackdropLivePopup').modal('hide');
+
+            }
+
+        </script>
+        
+        <script type="text/javascript">
+
+            function @(strIdScriptJs)(resultJson,resultJsonBefore) {
+
+                var newScript = document.createElement("script");
+                newScript.setAttribute("id", "@strIdScriptJs");
+                newScript.innerHTML = resultJson.strJs;
+                document.body.appendChild(newScript);
+
+                @(JsonResultShowChartMaxQuantityByCustomer)(resultJsonBefore);
+
+            }
+
+        </script>
+
+    }
+
+
+    {
+        string strTemp = Url.Action(JsonResultGetDataForStatisticByTime);
+        string idDatepicker = nameof(idDatepicker) + "_" + idChkStartStatistic;
+
+        <script type="text/javascript">
+
+            document.getElementById("@idChkStartStatistic").addEventListener("change", function (e) {
+                if (this.checked) {
+                    setDisableAllForIdAndChild($("#@idDatepicker"), true);
+
+                    voidShowLoadingWithTitlePercent("HIỂN THỊ THỐNG KÊ","40%");
+
+                    var arrayStrInput = [];
+                    arrayStrInput.push(document.getElementById("@(idInputStartDate[0])").value);
+                    arrayStrInput.push(document.getElementById("@(idInputEndDate[0])").value);
+
+                    voidCallAjaxGetByUrlArrayInput('@strTemp',arrayStrInput); 
+                    //-> voidAfterUseAjax
+                    //-> JsonResultGetDataForStatisticByTime
+
+                } else {
+                    setDisableAllForIdAndChild($("#@idDatepicker"), false);
+                }
+            });
+
+        </script>
+
+    }
+
+    <script type="text/javascript">
+
+        document.getElementById("idInputRadio6Thang").addEventListener("click", function (e) {
+
+            setCollapseForId($("#idDivChkStart"), true);
+
+            var d = new Date;
+            var datestring = StrDateddmmyyyy(d);
+
+            var dateBefore6Month = new Date(d.setMonth(d.getMonth() - 6));
+            let strTenp = "01/"
+                + ("0" + (dateBefore6Month.getMonth() + 1)).slice(-2) + "/" +
+                dateBefore6Month.getFullYear();
+
+            if (document.getElementById('idInputRadio6Thang').checked == true) {
+
+            }
+
+            if (document.getElementById('idInputRadioTuyChinh').checked == true) {
+
+                strTenp = datestring;
+
+            }
+
+            voidSetDateForIdByString("@(idInputEndDate[0])", datestring);
+            voidSetDateForIdByString("@(idInputStartDate[0])", strTenp);
+
+            let ebiStartStatistic=document.getElementById("@idChkStartStatistic");
+
+            if (document.getElementById('idInputRadio6Thang').checked == true) {
+                ebiStartStatistic.checked=true;
+                ebiStartStatistic.dispatchEvent(new Event("change"));
+                return;
+            }
+
+            if (document.getElementById('idInputRadioTuyChinh').checked == true) {
+                ebiStartStatistic.checked=false;
+                ebiStartStatistic.dispatchEvent(new Event("change"));
+
+                setCollapseForId($("#idDivChkStart"), false);
+
+                return;
+            }
+
+        });
+
+        document.getElementById("idInputRadioTuyChinh").addEventListener("click", function (e) {
+
+            document.getElementById('idInputRadio6Thang').dispatchEvent(new Event("click"));
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            setCollapseForId($("#idDivChkStart"), true);
+            document.getElementById('idInputRadioTuyChinh').checked = true
+            document.getElementById('idInputRadio6Thang').dispatchEvent(new Event("click"));
+        });
+
+    </script>
+
+}
+
+@if (strNamePart == "html")
+{
+    <div class="container-fluid">
+        <h1 class="mt-0">Danh sách</h1>
+        <ol class="breadcrumb my-1">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+
+            @{
+                string strBreadcrumbCurrent = $"Danh sách  dữ liệu/ 1 trang)";
+            }
+            <li class="breadcrumb-item active">strBreadcrumbCurrent</li>
+
+        </ol>
+
+        <div class="card my-3  position-relative col-sm-8 col-md-6 col-lg-5 col-xl-4">
+            @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.PATH
+        , new string[] {"Mốc thời gian" })
+
+            <div class="card-body p-1 " style=" margin-top: 0px; ">
+
+                <div class="d-flex justify-content-center my-1" id="idGroupRadioTime">
+                    <div class="form-check mx-1 my-auto">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="idInputRadio6Thang">
+                        <label class="form-check-label" for="idInputRadio6Thang">6 tháng gần nhất</label>
+                    </div>
+                    <div class="form-check mx-1 my-auto">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="idInputRadioTuyChinh" checked="">
+                        <label class="form-check-label" for="idInputRadioTuyChinh">Tùy chỉnh</label>
+                    </div>
+                </div>
+
+                <div class="container my-2">
+
+                    @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.PATH
+                , new string[] {"html",idChkStartStatistic })
+
+                </div>
+
+                <div class="d-flex justify-content-center mx-2 my-1">
+                    <div class="form-check form-switch" id="idDivChkStart">
+                        <input class="form-check-input" type="checkbox" id="@idChkStartStatistic">
+                        <label class="form-check-label" for="@idChkStartStatistic">Bắt đầu thống kê</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="container-fluid" id="idDivListDateRanger">
+        </div>
+
+        <div class="card my-1 border-0">
+
+            @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._LoadingPopup.PATH
+        , new string[] {""})
+
+        </div>
+
+    </div>
+
+}
+
+@if (strNamePart == "js" + strPartListDatePicker)
+{
+
+    <script type="text/javascript">
+
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.PATH
+    , new string[] {"js",JsonResultShowChartMaxQuantityByCustomer })
+
+    </script>
+
+}
+
+@if (strNamePart == "html" + strPartListDatePicker)
+{
+
+    <div class="row">
+
+        <div class="col-md-6 col-xl-4 col-xxl-3">
+
+            <div class="card my-1 position-relative border border-success">
+
+                @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._PVPolarAreaChart.PATH
+            , new string[] {"html",JsonResultShowChartMaxQuantityByCustomer
+            ,""
+            ,"Số đơn hàng theo khách hàng"
+            +"<br>(Trong 6 tháng gần nhất)" })
+            </div>
+
+        </div>
+
+    </div>
+
+}

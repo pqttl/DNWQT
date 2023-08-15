@@ -1,0 +1,369 @@
+﻿@{
+    ViewData["Title"] = "Thống kê theo số đơn hàng";
+    Layout = "~/Views/Shared/_LayoutBootstrapv5.cshtml";
+    string strTemp = "";
+
+    string idChkStartStatistic = nameof(idChkStartStatistic);
+
+    string JsonResultShowChartMaxQuantityByCustomer = nameof(DNQT.AdminApp.Controllers.StatisticController.JsonResultShowChartMaxQuantityByCustomer);
+    string JsonResultShowChartQuantityByCustomer = nameof(DNQT.AdminApp.Controllers.StatisticController.JsonResultShowChartQuantityByCustomer);
+    string JsonResultShowChartQuantity6Month = nameof(DNQT.AdminApp.Controllers.StatisticController.JsonResultShowChartQuantity6Month);
+    string JsonResultShowChartQuantity2Week = nameof(DNQT.AdminApp.Controllers.StatisticController.JsonResultShowChartQuantity2Week);
+    string JsonResultGetDataForStatisticByTime = nameof(DNQT.AdminApp.Controllers.StatisticController.JsonResultGetDataForStatisticByTime);
+
+    var lstStrKeyPartialView = new List<string>();
+    lstStrKeyPartialView.Add(idChkStartStatistic);
+    lstStrKeyPartialView.Add(JsonResultShowChartQuantity2Week);
+    lstStrKeyPartialView.Add(JsonResultShowChartQuantity6Month);
+    lstStrKeyPartialView.Add(JsonResultShowChartQuantityByCustomer);
+    lstStrKeyPartialView.Add(JsonResultShowChartMaxQuantityByCustomer);
+    
+    List<string> idInputStartDate = DNQT.ToolCommon.BLLTools.LstStrIdByListKey(
+    nameof(idInputStartDate),lstStrKeyPartialView);
+    List<string> idInputEndDate = DNQT.ToolCommon.BLLTools.LstStrIdByListKey(
+    nameof(idInputEndDate),lstStrKeyPartialView);
+
+}
+
+@section ScriptsCSS{
+    
+<link href="/css/Bootstrapv5.0.2/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<link rel="stylesheet" href="/css/bootstrapDatepicker1.9.0/bootstrap-datepicker.min.css">
+
+    <style type="text/css">
+        .disabledElement {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
+
+}
+
+@section ScriptsJavaScript{
+    
+<script src="/js/bootstrapDatepicker1.9.0/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrapDatepicker1.9.0/bootstrap-datepicker.vi.min.js"></script>
+
+<script src="/js/Chart.jsv4.0.1/chart.js"></script>
+@*<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>*@
+
+<script src="/js/scriptsFunctionCommon.js"></script>
+
+        @foreach(var item in lstStrKeyPartialView){
+            @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.PATH
+        , new string[] {"js",item })
+        }
+
+
+
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._LineChart.PATH
+        , new string[] {"js",JsonResultShowChartQuantity2Week,"","" })
+        
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._BarChart.PATH
+        , new string[] {"js",JsonResultShowChartQuantity6Month,"","" })
+        
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._MultiPieChart.PATH
+        , new string[] {"js",JsonResultShowChartQuantityByCustomer,"","" })
+        
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._PolarAreaChart.PATH
+        , new string[] {"js",JsonResultShowChartMaxQuantityByCustomer,"","" })
+
+<script type="text/javascript">
+
+function @(JsonResultGetDataForStatisticByTime)(resultJson) {
+    if (resultJson.blnStatusJs == false) {
+        alert(resultJson.strMess);
+        return;
+    }
+
+    setCollapseForId($("#idDivTimeStatistic"), true);
+    setCollapseForId($("#idDivAllChart"), false);
+
+    voidSetDateForIdByString("@(idInputEndDate[1])",resultJson.strTimeEnd2Week);
+    voidSetDateForIdByString("@(idInputStartDate[1])",resultJson.strTimeStart2Week);
+    
+    voidSetDateForIdByString("@(idInputEndDate[2])",resultJson.strTimeEnd6Month);
+    voidSetDateForIdByString("@(idInputStartDate[2])",resultJson.strTimeStart6Month);
+    
+    voidSetDateForIdByString("@(idInputEndDate[3])",resultJson.strTimeEnd6Month);
+    voidSetDateForIdByString("@(idInputStartDate[3])",resultJson.strTimeStart6Month);
+    
+    voidSetDateForIdByString("@(idInputEndDate[4])",resultJson.strTimeEnd6Month);
+    voidSetDateForIdByString("@(idInputStartDate[4])",resultJson.strTimeStart6Month);
+
+}
+
+</script>
+
+                    @{
+                        {
+                            //string strTemp = nameof(DNQT.AdminApp.Controllers.StatisticController);
+                            //string strController = strTemp.Substring(0, strTemp.LastIndexOf("Controller"));
+                            //string strAction = nameof(DNQT.AdminApp.Controllers.StatisticController.PartialViewSortMaxToMin);
+                            //string strUrl=Url.Action(strAction,strController)+"?arrayStrInput=1311";
+
+    <script type="text/javascript">
+
+        function voidAfterUseAjax(resultJson) {
+
+            if (resultJson.strNameVoid =='@JsonResultShowChartMaxQuantityByCustomer') {
+                @(JsonResultShowChartMaxQuantityByCustomer)(resultJson);
+                return;
+            }
+
+            if (resultJson.strNameVoid =='@JsonResultShowChartQuantityByCustomer') {
+                @(JsonResultShowChartQuantityByCustomer)(resultJson);
+            }
+
+            if (resultJson.strNameVoid =='@JsonResultShowChartQuantity6Month') {
+                @(JsonResultShowChartQuantity6Month)(resultJson);
+            }
+
+            if (resultJson.strNameVoid =='@JsonResultShowChartQuantity2Week') {
+                @(JsonResultShowChartQuantity2Week)(resultJson);
+            }
+
+            if (resultJson.strNameVoid == '@JsonResultGetDataForStatisticByTime') {
+                @(JsonResultGetDataForStatisticByTime)(resultJson);
+            }
+
+            let arrayStrTemp = [];
+            arrayStrTemp.push('@JsonResultGetDataForStatisticByTime');
+            arrayStrTemp.push('@JsonResultShowChartQuantity2Week');
+            arrayStrTemp.push('@JsonResultShowChartQuantity6Month');
+            arrayStrTemp.push('@JsonResultShowChartQuantityByCustomer');
+            arrayStrTemp.push('@JsonResultShowChartMaxQuantityByCustomer');
+            
+            let strTempBtn="idAShow_";
+            for (let i = 0; i < arrayStrTemp.length-1; i++) {
+                if (document.getElementById('idInputRadioTuyChinh').checked==true) {
+                    continue;
+                }
+                if (resultJson.strNameVoid == arrayStrTemp[i]) {
+                    document.getElementById(strTempBtn+arrayStrTemp[i+1]).dispatchEvent(new Event("click"));
+                    return;
+                }
+            }
+
+            setCollapseForId($("#idButtonClose"), false);
+
+            $('#idDivStaticBackdropLivePopup').modal('hide');
+            
+        }
+
+    </script>
+
+                        }
+                    }
+
+    @{
+    strTemp = Url.Action(JsonResultGetDataForStatisticByTime);
+    string idDatepicker=nameof(idDatepicker)+"_"+idChkStartStatistic;
+    }
+
+<script type="text/javascript">
+
+document.getElementById("@idChkStartStatistic").addEventListener("change", function (e) {
+    if (this.checked) {
+        
+        setDisableAllForIdAndChild($("#@idDatepicker"), true);
+
+        voidShowLoadingWithTitlePercent("HIỂN THỊ THỐNG KÊ","40%");
+
+        var arrayStrInput = [];
+        arrayStrInput.push(document.getElementById("@(idInputStartDate[0])").value);
+        arrayStrInput.push(document.getElementById("@(idInputEndDate[0])").value);
+
+        voidCallAjaxGetByUrlArrayInput('@strTemp',arrayStrInput);
+
+    } else {
+        setDisableAllForIdAndChild($("#@idDatepicker"), false);
+    }
+});
+
+</script>
+
+<script type="text/javascript">
+
+document.getElementById("idInputRadio6Thang").addEventListener("click", function (e) {
+
+    setCollapseForId($("#idDivChkStart"), true);
+
+    var d = new Date;
+    var datestring = StrDateddmmyyyy(d);
+
+    var dateBefore6Month = new Date(d.setMonth(d.getMonth() - 6));
+    let strTenp = "01/"
+        + ("0" + (dateBefore6Month.getMonth() + 1)).slice(-2) + "/" +
+        dateBefore6Month.getFullYear();
+
+    if (document.getElementById('idInputRadio6Thang').checked == true) {
+
+    }
+
+    if (document.getElementById('idInputRadioTuyChinh').checked == true) {
+
+        strTenp = datestring;
+
+    }
+
+    voidSetDateForIdByString("@(idInputEndDate[0])", datestring);
+    voidSetDateForIdByString("@(idInputStartDate[0])", strTenp);
+
+    let ebiStartStatistic=document.getElementById("@idChkStartStatistic");
+    
+    if (document.getElementById('idInputRadio6Thang').checked == true) {
+        ebiStartStatistic.checked=true;
+        ebiStartStatistic.dispatchEvent(new Event("change"));
+        return;
+    }
+    
+    if (document.getElementById('idInputRadioTuyChinh').checked == true) {
+        ebiStartStatistic.checked=false;
+        ebiStartStatistic.dispatchEvent(new Event("change"));
+        
+        setCollapseForId($("#idDivChkStart"), false);
+
+        return;
+    }
+
+});
+
+document.getElementById("idInputRadioTuyChinh").addEventListener("click", function (e) {
+
+    document.getElementById('idInputRadio6Thang').dispatchEvent(new Event("click"));
+
+});
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    setCollapseForId($("#idDivAllChart"), true);
+    setCollapseForId($("#idDivChkStart"), true);
+    document.getElementById('idInputRadio6Thang').checked=true;
+    document.getElementById('idInputRadio6Thang').dispatchEvent(new Event("click"));
+});
+
+</script>
+
+<script src="/js/scriptsForDebug.js"></script>
+
+<script type="text/javascript">
+
+</script>
+
+}
+
+<div class="container-fluid">
+    @*<h1 class="mt-0">Danh sách</h1>*@
+    <ol class="breadcrumb my-1">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+
+        @{
+            string strBreadcrumbCurrent = $"Danh sách  dữ liệu/ 1 trang)";
+        }
+        <li class="breadcrumb-item active">Thống kê theo số đơn hàng</li>
+
+    </ol>
+
+    <div class="card my-3  position-relative col-sm-8 col-md-6 col-lg-5 col-xl-4" id="idDivTimeStatistic">
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.PATH
+        , new string[] {"Mốc thời gian tải dữ liệu" })
+
+        <div class="card-body p-1 " style=" margin-top: 0px; ">
+
+            <div class="d-flex justify-content-center my-1" id="idGroupRadioTime">
+                <div class="form-check mx-1 my-auto">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="idInputRadio6Thang">
+                    <label class="form-check-label" for="idInputRadio6Thang">6 tháng gần nhất</label>
+                </div>
+                <div class="form-check mx-1 my-auto">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="idInputRadioTuyChinh" checked="">
+                    <label class="form-check-label" for="idInputRadioTuyChinh">Tùy chỉnh</label>
+                </div>
+            </div>
+
+            <div class="container my-2">
+
+                @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.PATH
+                , new string[] {"html",idChkStartStatistic })
+
+            </div>
+
+            <div class="d-flex justify-content-center mx-2 my-1">
+                <div class="form-check form-switch" id="idDivChkStart">
+                    <input class="form-check-input" type="checkbox" id="@idChkStartStatistic">
+                    <label class="form-check-label" for="@idChkStartStatistic">Bắt đầu thống kê</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row collapse" id="idDivAllChart">
+
+        <div class="col-md-6 col-xl-4 col-xxl-3">
+
+            <div class="card my-1 position-relative border border-danger">
+
+                @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._LineChart.PATH
+                , new string[] {"html",JsonResultShowChartQuantity2Week
+                ,"A1:Cả ngày   B2:Từ 12h đến 24h00   C3:Từ 00h đến 11h59"
+                ,"Tổng số lượng đơn hàng theo ngày"
+                +"<br>(Từ đầu tuần trước đến nay)"})
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-xl-4 col-xxl-3">
+
+            <div class="card my-1 position-relative border border-success">
+
+                @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._BarChart.PATH
+                , new string[] {"html",JsonResultShowChartQuantity6Month
+                ,"A1:Cả ngày   B2:Từ 12h đến 24h00   C3:Từ 00h đến 11h59"
+                ,"Tổng số lượng đơn hàng theo tháng"
+                +"<br>(Trong 6 tháng gần nhất)" })
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-xl-4 col-xxl-3">
+
+            <div class="card my-1 position-relative border border-info">
+
+                @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._MultiPieChart.PATH
+                , new string[] {"html",JsonResultShowChartQuantityByCustomer
+                ,""
+                ,"Số đơn hàng theo khách hàng"
+                +"<br>(Trong 6 tháng gần nhất)" })
+            </div>
+
+        </div>
+        
+        <div class="col-md-6 col-xl-4 col-xxl-3">
+
+            <div class="card my-1 position-relative border border-success">
+
+                @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._PolarAreaChart.PATH
+                , new string[] {"html",JsonResultShowChartMaxQuantityByCustomer
+                ,""
+                ,"Số đơn hàng theo khách hàng"
+                +"<br>(Trong 6 tháng gần nhất)" })
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card my-1 border-0">
+
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._LoadingPopup.PATH
+        , new string[] {""})
+
+    </div>
+
+</div>

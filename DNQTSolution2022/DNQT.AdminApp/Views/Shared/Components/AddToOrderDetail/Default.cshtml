@@ -1,0 +1,612 @@
+﻿@model string
+
+@{
+    var strNameComponent = DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.Default.STR;
+    if (strNameComponent == "")
+    {
+    }
+
+    string strTemp = "";
+
+    string idDivLoadingNameProduct = nameof(idDivLoadingNameProduct);
+    string idDivAddGoiYProductcollapseExample = nameof(idDivAddGoiYProductcollapseExample);
+    string idALoadNameProductGoiY = nameof(idALoadNameProductGoiY);
+
+    string idDivAddProduct = nameof(idDivAddProduct);
+
+    string idANextToQuantity = nameof(idANextToQuantity);
+    string idANextToPrice = nameof(idANextToPrice);
+    string idANextToThanhTien = nameof(idANextToThanhTien);
+    
+    string idInputShowThanhTien = nameof(idInputShowThanhTien);
+    string idMyInput = nameof(idMyInput);
+    string idInputSoLuong = nameof(idInputSoLuong);
+    string idInputDonGia = nameof(idInputDonGia);
+    string idInputThanhTien = nameof(idInputThanhTien);
+
+    string idSpanKg = nameof(idSpanKg);
+    string idSpanVnd = nameof(idSpanVnd);
+
+    string idAAddCharDot = nameof(idAAddCharDot);
+    string idAAddThousand = nameof(idAAddThousand);
+
+    //string idButtonResetNameTwo = nameof(idButtonResetNameTwo);
+    string idButtonReset = nameof(idButtonReset);
+    string idButtonResetSoLuong = nameof(idButtonResetSoLuong);
+    string idButtonResetDonGia = nameof(idButtonResetDonGia);
+    string idButtonResetAll = nameof(idButtonResetAll);
+
+    string idAAddProduct = nameof(idAAddProduct);
+
+}
+
+@if (Model == "script")
+{
+
+}
+
+
+
+@if (Model == "css")
+{
+
+    <link href="/css/stylesAutoCompleteWithArray.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .disabledElement {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
+
+}
+
+
+
+@if (Model == "js")
+{
+    <script src="/js/scriptsFunctionCommon.js"></script>
+
+    <script src="/js/autoCompleteWithArray.js"></script>
+    <script src="/js/autoCompleteWithTwoArray.js"></script>
+
+    <script>
+
+        setDisableAllForIdAndChild($("#@idDivAddProduct"),true);
+
+    </script>
+
+    <script src="https://unpkg.com/mathjs/lib/browser/math.js"></script>
+    <script src="/js/scriptsNeedMathJs.js"></script>
+
+    <script src="/js/scriptsForDebug.js"></script>
+    
+    <script type="text/javascript">
+    
+function voidHienThiPhepTinhThanhTien() {
+    var ebiInput = document.getElementById("@idMyInput");
+    ebiInput.value = ebiInput.value.trim();
+    ebiInput.value = capitalizeFirstLetter(ebiInput.value);
+
+
+    var ebiSoLuong = document.getElementById("@idInputSoLuong");
+    var ebiSpanKg = document.getElementById("@idSpanKg");
+    ebiSpanKg.innerHTML = voidConvertNumberToCurrency(Number(ebiSoLuong.value), "", "", 3);
+    voidChangeTextIfOldText(ebiSpanKg, "NaN", "0");
+
+    var ebiDonGia = document.getElementById("@idInputDonGia");
+    var ebiSpanVnd = document.getElementById("@idSpanVnd");
+    ebiSpanVnd.innerHTML = voidConvertNumberToCurrency(Number(ebiDonGia.value), "", "", 0);
+    voidChangeTextIfOldText(ebiSpanVnd, "NaN", "0");
+
+    voidChangeWidthTwoSpanChoBangNhau($('#@idSpanKg'), $('#@idSpanVnd'));
+
+    //var temp = Number(ebiSoLuong.value) * Number(ebiDonGia.value);
+    var temp = math.multiply(Number(ebiSoLuong.value), Number(ebiDonGia.value));
+    var ebiThanhTien = document.getElementById("@idInputThanhTien");
+    ebiThanhTien.innerHTML = voidConvertNumberToCurrency(temp, "", "", 0);
+    voidChangeTextIfOldText(ebiThanhTien, "NaN", "0");
+    //var temp = ebiThanhTien.value;
+    //ebiThanhTien.value = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    //const money = 123456789.987654321;
+    //const config = { style: 'currency', currency: 'VND', maximumFractionDigits: 9}
+    //const formated = new Intl.NumberFormat('vi-VN', config).format(money);
+    //ebiThanhTien.value=formated;
+
+
+    //$('#idInputThanhTien').formatCurrency();
+    //document.getElementById("@idInputThanhTien").value=document.getElementById("@idInputSoLuong").value;
+    //document.getElementById("@idMyInput").focus();
+    //e.preventDefault();
+
+}
+
+document.getElementById("@idInputDonGia").addEventListener("input", voidHienThiPhepTinhThanhTien);
+document.getElementById("@idInputSoLuong").addEventListener("input", voidHienThiPhepTinhThanhTien);
+
+$('#@idInputThanhTien').on('DOMSubtreeModified', function () {
+    var strTemp='';
+    strTemp+=document.getElementById("@idSpanKg").innerHTML;
+    strTemp+= ' x ';
+    strTemp+=document.getElementById("@idSpanVnd").innerHTML;
+    strTemp+= ' = ';
+    strTemp+=document.getElementById("@idInputThanhTien").innerHTML;
+    //strTemp+= ' vnđ';
+    document.getElementById("@idInputShowThanhTien").innerHTML = strTemp;
+})
+
+document.getElementById("@idInputDonGia").addEventListener("focus", function (e) {
+    voidChangeInnerHtmlIconForId("@idANextToThanhTien");
+});
+
+document.getElementById("@idInputSoLuong").addEventListener("focus", function (e) {
+    voidChangeInnerHtmlIconForId("@idANextToPrice");
+});
+
+document.getElementById("@idMyInput").addEventListener("focus", function (e) {
+    voidChangeInnerHtmlIconForId("@idANextToQuantity");
+});
+
+function voidThemTextKhiClick(ebiButton, ebiInput,strText) {
+    //document.getElementById("@idAAddCharDot").blur();
+    ebiButton.blur();
+    //var ebiInput = document.getElementById("@idInputSoLuong");
+    ebiInput.focus();
+    if (Number(ebiInput.value) % 1 == 0) {
+        ebiInput.value += strText;
+    }
+
+    //var temp = ebiInput.value + ".";
+    //ebiInput.value = temp;
+
+    //var e = jQuery.Event("keydown", { keyCode: 8 }); // you can specify your desired key code 
+    //$('#idInputSoLuong').trigger(e);
+
+    //var e = jQuery.Event("keypress");
+    //e.which = 52; // 8 là backspace , 52 là bấm 4
+    //e.altKey = false; // Alt key pressed
+    //$("@idInputSoLuong").trigger(e);
+
+    // Create a new jQuery.Event object with specified event properties.
+    //var e = jQuery.Event("keypress", { keyCode: 9 });
+
+    // trigger an artificial keydown event with keyCode 64
+    //jQuery("body").trigger(e);
+
+    //$("input").trigger($.Event("keydown", { keyCode: 9 }));
+
+    //$('#idInputSoLuong').trigger({ type: 'keypress', which: 9, keyCode: 9 });
+
+    //var event = jQuery.Event('keypress');
+    //event.which = 9;
+    //event.keyCode = 9; //keycode to trigger this for simulating enter
+    //jQuery(this).trigger(event);
+
+    //document.dispatchEvent(new KeyboardEvent("keypress", { key: "4" }));
+
+    //let e = $.Event('keypress');
+    //e.key = '4';
+    //$(document).trigger(e);
+}
+
+function voidAddDot() {
+    var ebiButton = document.getElementById("@idAAddCharDot");
+    ebiButton.blur();
+
+    var ebiInput = document.getElementById("@idInputSoLuong");
+    ebiInput.focus();
+
+    if (!ebiInput.value.includes(".")) {
+        ebiInput.value += ".";
+    }
+    
+    if (ebiInput.maxLength<11) {
+        ebiInput.value = ebiInput.value.substring(0, ebiInput.maxLength);
+    }
+
+    //voidThemTextKhiClick(document.getElementById("@idAAddCharDot"), document.getElementById("@idInputSoLuong"), ".");
+    voidHienThiPhepTinhThanhTien();
+}
+document.getElementById("@idAAddCharDot").addEventListener("click", voidAddDot);
+
+function voidAddThousand() {
+    var ebiButton = document.getElementById("@idAAddThousand");
+    ebiButton.blur();
+
+    var ebiInput = document.getElementById("@idInputDonGia");
+    ebiInput.focus();
+
+    if (ebiInput.value>0) {
+        ebiInput.value += "000";
+    }
+
+    if (ebiInput.maxLength < 11) {
+        ebiInput.value = ebiInput.value.substring(0, ebiInput.maxLength);
+    }
+
+    //voidThemTextKhiClick(document.getElementById("@idAAddThousand"), document.getElementById("@idInputDonGia"), "000");
+    voidHienThiPhepTinhThanhTien();
+}
+
+document.getElementById("@idAAddThousand").addEventListener("click", voidAddThousand);
+
+
+
+function voidChangeInnerHtmlIconForId(strId) {
+    {
+        var variable = '' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-plus mb-1" viewBox="0 0 16 16">' +
+            '    <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z"></path>' +
+            '    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"></path>' +
+            '    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"></path>' +
+            '</svg>' +
+            '';
+        var ebiInput = document.getElementById("@idANextToQuantity");
+        ebiInput.innerHTML = variable;
+    }
+    {
+        var variable = '' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill mb-1" viewBox="0 0 16 16">' +
+            '    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path>' +
+            '</svg>' +
+            '';
+        var ebiInput = document.getElementById("@idANextToPrice");
+        ebiInput.innerHTML = variable;
+    }
+    {
+        var variable = '' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags-fill mb-1" viewBox="0 0 16 16">' +
+            '    <path d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path>' +
+            '    <path d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043-7.457-7.457z"></path>' +
+            '</svg>' +
+            '';
+        var ebiInput = document.getElementById("@idANextToThanhTien");
+        ebiInput.innerHTML = variable;
+    }
+    if (strId != '') {
+        var variable = '' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">' +
+            '   <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"></path>' +
+            '   <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"></path>' +
+            '   </svg>' +
+            '';
+        var ebiInput = document.getElementById(strId);
+        ebiInput.innerHTML = variable;
+    }
+}
+
+document.getElementById("@idButtonReset").addEventListener("click", function (e) {
+    voidResetTextAndFocus(document.getElementById("@idMyInput"), "");
+    voidHienThiPhepTinhThanhTien();
+    e.preventDefault();
+});
+document.getElementById("@idButtonResetSoLuong").addEventListener("click", function (e) {
+    voidResetTextAndFocus(document.getElementById("@idInputSoLuong"), "");
+    voidHienThiPhepTinhThanhTien();
+    e.preventDefault();
+});
+document.getElementById("@idButtonResetDonGia").addEventListener("click", function (e) {
+    voidResetTextAndFocus(document.getElementById("@idInputDonGia"), "");
+    voidHienThiPhepTinhThanhTien();
+    e.preventDefault();
+});
+
+document.getElementById("@idButtonResetAll").addEventListener("click", function (e) {
+    document.getElementById("@idButtonReset").click();
+    e.preventDefault();
+});
+
+document.getElementById("@idANextToQuantity").addEventListener("click", function (e) {
+    var ebiTemp = document.getElementById("@idInputSoLuong");
+    ebiTemp.focus();
+    ebiTemp.select();
+
+    voidHienThiPhepTinhThanhTien();
+    e.preventDefault();
+});
+
+document.getElementById("@idANextToPrice").addEventListener("click", function (e) {
+    var ebiTemp = document.getElementById("@idInputDonGia");
+    ebiTemp.focus();
+    ebiTemp.select();
+
+    voidHienThiPhepTinhThanhTien();
+    e.preventDefault();
+});
+
+document.getElementById("@idANextToThanhTien").addEventListener("click", function (e) {
+    //var ebiTemp = document.getElementById("@idAAddProduct");
+    //ebiTemp.focus();
+
+    //voidHienThiPhepTinhThanhTien();
+    e.preventDefault();
+    document.getElementById("@idAAddProduct").click();
+});
+
+
+voidInputXEnterThiIdYClick(document.getElementById("@idInputSoLuong"), document.getElementById("@idANextToPrice"));
+
+
+document.getElementById("@idInputDonGia").addEventListener("keydown", function (e) {
+    if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        document.getElementById("@idAAddProduct").click();
+    }
+
+    if (e.keyCode == 78) {
+        /*If the 'n' key is pressed,*/
+        document.getElementById("@idAAddThousand").click();
+    }
+});
+
+function voidLoadNameProductGoiY(resultJson) {
+    if (resultJson.blnStatusJs == true) {
+        //alert('Thao tác thành công!');
+        //window.location.href = "/AreaAccount/CtlChatOnline/Index";
+        setCollapseForId($("#@idDivLoadingNameProduct"), true);
+        $("#idALoadNameProductGoiY").css('pointer-events', '');
+
+        setDisableAllForIdAndChild($("#@idDivAddProduct"), false);
+
+        const arrayName = JSON.parse(resultJson.strArrayNameJs);
+        const arrayQuantity = JSON.parse(resultJson.strArrayQuantityJs);
+        voidHienThiGoiYTwoArray(document.getElementById("@idMyInput"), arrayName, arrayQuantity
+            , document.getElementById("@idANextToQuantity"), true);
+
+        document.getElementById("@idALoadNameProductGoiY").title = resultJson.strTitle;
+        document.getElementById("@idMyInput").focus();
+
+    } else {
+        alert('Thao tác không thành công, bạn vui lòng thử lại!');
+        //window.location.href = "/AreaAccount/CtlChatOnline/Index";
+    }
+}
+
+function voidAddProductToOrder(resultJson) {
+    setCollapseForId($("#@idDivLoadingNameProduct"), true);
+    $("#idALoadNameProductGoiY").css('pointer-events', '');
+
+    if (resultJson.blnStatusJs == false) {
+        voidAlertAndFocusSelect(resultJson.strMess, resultJson.strIdFocus);
+        return;
+    }
+
+    alert(resultJson.strMess);
+    location.reload();
+}
+
+function voidAlertAndFocusSelect(strMess, strIdFocus) {
+    alert(strMess);
+    if (strIdFocus == 'strInputName') {
+        var ebiTemp = document.getElementById("@idMyInput");
+        ebiTemp.focus();
+        ebiTemp.select();
+        return;
+    }
+
+    if (strIdFocus == 'strSpanKg') {
+        var ebiTemp = document.getElementById("@idInputSoLuong");
+        ebiTemp.focus();
+        ebiTemp.select();
+        return;
+    }
+    
+    if (strIdFocus == 'strSpanDonGia') {
+        var ebiTemp = document.getElementById("@idInputDonGia");
+        ebiTemp.focus();
+        ebiTemp.select();
+        return;
+    }
+
+}
+
+    </script>
+
+    strTemp = Url.Action(nameof(DNQT.AdminApp.Controllers.OrderController.JsonResultAddProductToOrder));
+
+    <script type="text/javascript">
+
+        document.getElementById("@idAAddProduct").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            $("#idALoadNameProductGoiY").css('pointer-events','none');
+
+            setCollapseForId($("#@idDivLoadingNameProduct"),false);
+
+            var strInputName=document.getElementById("@idMyInput").value;
+            var strSpanKg=document.getElementById("@idSpanKg").innerHTML;
+            var strSpanDonGia=document.getElementById("@idSpanVnd").innerHTML;
+
+            $.ajax({
+                    type: 'GET',
+                    url: '@strTemp',
+                    data: {strInputName: strInputName,strSpanKg:strSpanKg,strSpanDonGia:strSpanDonGia,intIdOrder:@ViewBag.IntIdToBack},
+                    dataType: 'json',
+                    success: function (res) {
+                        voidAddProductToOrder(res);
+                    }
+                });
+        });
+
+    </script>
+
+    strTemp = Url.Action(nameof(DNQT.AdminApp.Controllers.OrderController.JsonResultGetNameProductGoiY));
+
+    <script type="text/javascript">
+
+        document.getElementById("@idALoadNameProductGoiY").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            toggleCollapseForId($("#idDivAddGoiYProductcollapseExample"));
+            var strTitle=this.title;
+            if(strTitle!=""){
+                return;
+            }
+
+            $("#idALoadNameProductGoiY").css('pointer-events','none');
+
+            setCollapseForId($("#@idDivLoadingNameProduct"),false);
+
+            $.ajax({
+                    type: 'GET',
+                    url: '@strTemp',
+                    data: {strTitle: strTitle},
+                    dataType: 'json',
+                    success: function (res) {
+                        voidLoadNameProductGoiY(res);
+                    }
+                });
+        });
+
+        //document.getElementById("@idALoadNameProductGoiY").click();
+
+    </script>
+
+    @if (ViewBag.StrIdToClickWhenLoaded != null)
+    {
+
+        <script type="text/javascript">
+
+            document.getElementById("@ViewBag.StrIdToClickWhenLoaded").click();
+
+        </script>
+
+    }
+
+}
+
+
+
+@if (Model == "html")
+{
+
+    <div class="d-flex flex-column-reverse bd-highlight">
+        <div class="bd-highlight m-1 collapse" id="@idDivAddGoiYProductcollapseExample" style="max-width: 450px;">
+            <div class="card card-body" id="@idDivAddProduct">
+                <form asp-controller="fg" asp-action="fgf" method="post" style="margin: -31px -15px -19px;">
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    
+
+                    <div class="input-group my-1">
+
+                        <div class="form-control" style="text-align: center;background-color: #e9ecef;">
+                            <p class="my-auto" id="@idInputShowThanhTien">0</p>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="input-group my-1">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <a href="#" id="@idANextToQuantity" class="text-success text-decoration-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-plus mb-1" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
+                                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+                                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+                                    </svg>
+                                </a>
+                            </span>
+                        </div>
+
+                        <input class="form-control" id="@idMyInput" type="text" placeholder="Nhập tên vị thuốc...">
+
+                        <div class="input-group-append">
+                            <button class="btn btn-danger" type="submit" id="@idButtonReset">X</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group my-1">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <a href="#" id="@idANextToPrice" class="text-success text-decoration-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill mb-1" viewBox="0 0 16 16">
+                                        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path>
+                                    </svg>
+                                </a>
+                            </span>
+                        </div>
+
+                        <input class="form-control" id="@idInputSoLuong" pattern="[0-9]*" inputmode="numeric" step="0.1" type="text" min="0" max="99999" maxlength="9" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Nhập số lượng...">
+
+                        <div class="input-group-append">
+
+                            <div class="input-group-text" style="text-align: right;">
+                                <a href="#" id="@idAAddCharDot" class="text-decoration-none"><p class="my-auto" id="@idSpanKg">0</p></a>
+                            </div>
+
+                            <span class="input-group-text" style="width: 50px;">Kg</span>
+                            <button class="btn btn-danger" type="submit" id="@idButtonResetSoLuong">X</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group my-1">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <a href="#" id="@idANextToThanhTien" class="text-success text-decoration-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags-fill mb-1" viewBox="0 0 16 16">
+                                        <path d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        <path d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043-7.457-7.457z" />
+                                    </svg>
+                                </a>
+                            </span>
+                        </div>
+
+                        <input class="form-control" id="@idInputDonGia" pattern="[0-9]*" inputmode="numeric" step="500" type="number" min="1000" max="999999500" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Nhập đơn giá...">
+
+                        <div class="input-group-append">
+
+                            <div class="input-group-text" style="text-align: right;">
+                                <a href="#" id="@idAAddThousand" class="text-decoration-none"><p class="my-auto" id="@idSpanVnd">0</p></a>
+                            </div>
+
+                            <span class="input-group-text" style="width: 50px;">vnđ</span>
+                            <button class="btn btn-danger" type="submit" id="@idButtonResetDonGia">X</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group my-1">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                                    <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"></path>
+                                </svg>
+                            </span>
+                        </div>
+
+                        <div class="form-control" style="text-align: right;background-color: #e9ecef;">
+                            <a href="#" id="@idAAddProduct" class="text-decoration-none"><p class="my-auto" id="@idInputThanhTien">0</p></a>
+                        </div>
+
+                        <div class="input-group-append">
+                            <span class="input-group-text" style="width: 50px;">vnđ</span>
+                            <button class="btn btn-danger" type="submit" id="@idButtonResetAll">X</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="bd-highlight d-flex flex-row mr-auto my-auto">
+            <div class="my-auto form-check form-switch collapsed" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+             aria-expanded="false" aria-controls="collapseExample">
+                <a href="#" class="link-info" id="@idALoadNameProductGoiY">Thêm vị thuốc</a>
+                <div class="spinner-border spinner-border-sm text-info collapse" role="status" id="@idDivLoadingNameProduct">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

@@ -1,0 +1,55 @@
+﻿@model (DNQT.ViewModels.Admin.Order.DisplayColumn_VMDataTable mdisplay,System.Data.DataTable dt,System.Data.DataRow datarow)
+
+@{
+    var strNameComponent = DNQT.ToolCommon.QTConstants.Components.HtmlBodyTable.Default.STR;
+    if (strNameComponent == "")
+    {
+    }
+
+    string strStyleHtmlTdAlignRight = "style=\"text-align: right\"";
+    string strStyleHtmlTdAlignCenter = "style=\"text-align: center\"";
+}
+
+@foreach (System.Data.DataColumn dc in @Model.dt.Columns)
+{
+    if (@Model.mdisplay.LstStringColumnCollapse.Contains(dc.ColumnName))
+    {
+        continue;
+    }
+    string strStyleHtmlTd = "";
+    if (@Model.mdisplay.LstStringColumnRight.Contains(dc.ColumnName))
+    {
+        strStyleHtmlTd = strStyleHtmlTdAlignRight;
+    }
+    if (@Model.mdisplay.LstStringColumnCenter.Contains(dc.ColumnName))
+    {
+        strStyleHtmlTd = strStyleHtmlTdAlignCenter;
+    }
+
+
+    if (@Model.mdisplay.LstStringColumnAddLink.Count==@Model.mdisplay.LstStringHtmlAddToLink.Count)
+    {
+        bool blnBreak = false;
+        for (int i = 0; i < @Model.mdisplay.LstStringColumnAddLink.Count; i++)
+        {
+            if (@Model.mdisplay.LstStringColumnAddLink[i] == dc.ColumnName)
+            {
+                string strHtml = @Model.mdisplay.LstStringHtmlAddToLink[i];
+                <td @Html.Raw(strStyleHtmlTd)>
+                    <a @Html.Raw(strHtml)>@Html.Raw(@Model.datarow[dc].ToString())</a>
+                </td>
+
+                blnBreak = true;
+                break;
+            }
+        }
+
+        if (blnBreak == true)
+        {
+            continue;
+        }
+    }
+
+
+    <td @Html.Raw(strStyleHtmlTd)>@Html.Raw(@Model.datarow[dc].ToString())</td>
+}

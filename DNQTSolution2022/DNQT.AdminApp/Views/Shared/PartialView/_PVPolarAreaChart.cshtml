@@ -1,0 +1,191 @@
+﻿@model String[]
+@{
+    var strName = DNQT.ToolCommon.QTConstants.PartialView._PVPolarAreaChart.STR;
+    if (strName == "")
+    {
+    }
+    
+    string strNamePart = Model[0];
+    string strKeyAndFunction = Model[1];
+
+    string idAShow = nameof(idAShow)+"_"+strKeyAndFunction;
+    string idCanvasChartLine = nameof(idCanvasChartLine)+"_"+strKeyAndFunction;
+    string idInputStartDate = nameof(idInputStartDate)+"_"+strKeyAndFunction;
+    string idInputEndDate = nameof(idInputEndDate)+"_"+strKeyAndFunction;
+    
+    string idDivThaoTac = nameof(idDivThaoTac)+"_"+strKeyAndFunction;
+    string idDivNoteColor = nameof(idDivNoteColor)+"_"+strKeyAndFunction;
+
+    string idDivChartAndNote = nameof(idDivChartAndNote)+"_"+strKeyAndFunction;
+    string idDivSortMaxToMin = nameof(idDivSortMaxToMin)+"_"+strKeyAndFunction;
+    
+    string strPartChart = nameof(strPartChart)+"_"+strKeyAndFunction;
+    
+}
+
+@{
+    {
+    }
+}
+
+@if (strNamePart == "js")
+{
+    //string strUrlLoadHtml = Model[2];
+    string strUrlJsonResult = Model[3];
+
+    <script type="text/javascript">
+        
+        document.getElementById("@idAShow").addEventListener("click", function (e) {
+            e.preventDefault();
+            //setDisableAllForIdAndChild($("#@idDivThaoTac"), true);
+            //setCollapseForId($("#@idDivChartAndNote"), false);
+            setCollapseForId($("#@idDivThaoTac"), true);
+
+            voidShowLoadingWithTitlePercent("HIỂN THỊ THỐNG KÊ","40%");
+
+            var arrayStrInput = [];
+            arrayStrInput.push(document.getElementById("@idInputStartDate").value);
+            arrayStrInput.push(document.getElementById("@idInputEndDate").value);
+            
+            voidCallAjaxGetByUrlArrayInput('@strUrlJsonResult',arrayStrInput);
+            //-> voidAfterUseAjax
+            //-> JsonResultShowChartMaxQuantityByCustomer
+
+        });
+
+    </script>
+
+}
+
+@if (strNamePart == "html")
+{
+    string strNameChart = Model[3];
+
+    @*@await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.PATH
+        , new string[] {"" })*@
+
+    <div id="@idDivChartAndNote">
+
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <h6 class="text-center">@Html.Raw(strNameChart)</h6>
+    </div>
+    
+
+
+    <div class="card mx-1 my-3  position-relative" id="@idDivThaoTac" style="max-width: 450px;">
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.PATH
+    , new string[] {"Mốc thời gian cụ thể" })
+
+        <div class="card-body mt-3 py-1 container">
+
+            @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView._DateRangePicker.PATH
+        , new string[] {"html",strKeyAndFunction })
+
+        </div>
+
+        <div class="my-2 d-flex justify-content-center px-2">
+            <a href="#" class="link-info" id="@idAShow">Hiển thị</a>
+        </div>
+
+    </div>
+
+    <div id="@idDivSortMaxToMin" class="mx-1"></div>
+
+}
+
+@if (strNamePart == "js"+strPartChart)
+{
+    string strUrlLoadHtml = Model[2];
+    
+    <script type="text/javascript">
+
+        function @(strKeyAndFunction)(resultJson) {
+
+            let arrayName = JSON.parse(resultJson.strArrayNameJs);
+            let arrayQuantity = JSON.parse(resultJson.strArrayQuantityJs);
+            let arrayColor = JSON.parse(resultJson.strArrayColorJs);
+            
+            let arrayNameCenter = JSON.parse(resultJson.strArrayNameCenterJs);
+            let arrayColorCenter = JSON.parse(resultJson.strArrayColorCenterJs);
+            let arrayQuantityCenter = JSON.parse(resultJson.strArrayQuantityCenterJs);
+
+            let arrayNameAll = arrayName.concat(arrayName);
+            
+            const config = {
+                type: 'polarArea',
+                data: {
+                    labels: arrayNameCenter,
+                    datasets: [{
+                        label: 'Số đơn',
+                        data: arrayQuantityCenter,
+                        backgroundColor: arrayColorCenter
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins:{
+                        legend: {
+                          display: false
+                        }
+                    }
+                }
+            };
+
+            let chartStatus = Chart.getChart("@idCanvasChartLine"); // <canvas> id
+            if (chartStatus != undefined) {
+                chartStatus.destroy();
+                //chartStatus.options = config;
+                //chartStatus.update('active');
+            }
+
+            let myLineChart = new Chart(document.getElementById('@idCanvasChartLine'), config);
+
+            document.getElementById('@idDivNoteColor').outerHTML=resultJson.strNoteColor;
+            
+            $('#@idDivSortMaxToMin').load('@strUrlLoadHtml', function () {
+                
+                setCollapseForId($("#idButtonClose"), false);
+
+                $('#idDivStaticBackdropLivePopup').modal('hide');
+
+            });
+
+        }
+
+    </script>
+
+}
+
+@if (strNamePart == "html"+strPartChart)
+{
+
+    string strGhiChu = "";
+    if (Model.Length>2)
+    {
+        strGhiChu = Model[2];
+    }
+    @*<div class="d-flex justify-content-center">
+        <h6 class="text-center">@Html.Raw(strNameChart)</h6>
+        </div>*@
+
+    @if (strGhiChu != "")
+    {
+        <div class="mt-3 d-flex justify-content-start px-2">
+            <pre class="my-auto" style="white-space: pre-wrap;">@strGhiChu</pre>
+        </div>
+    }
+
+    <div class="d-flex justify-content-center flex-wrap" id="@idDivNoteColor">
+    </div>
+
+    <div class="card-body p-0" style="
+    margin-left: -5px;
+    margin-right: -5px;
+">
+        <div class="d-flex justify-content-center" style="max-height: 400px;">
+            <canvas id="@idCanvasChartLine"></canvas>
+        </div>
+    </div>
+}

@@ -1,0 +1,341 @@
+﻿@model DNQT.ViewModels.Common.PagedResult<System.Data.DataTable>
+@addTagHelper *, DNQT.AdminApp
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string strTemp = "";
+}
+
+@section ScriptsCSS{
+    
+    <style type='text/css'>
+        .table tbody tr.highlight td {
+            background-color: #bce2e5;
+        }
+    </style>
+    
+<style type="text/css">
+    #infoTable td p.classP {
+        margin: 0px;
+        color: black;
+        text-align: left;
+    }
+    
+    #infoTable td p.classPQuantity {
+        margin: 0px;
+        color: blue;
+    }
+    
+    #infoTable p.classPTongLoai {
+        margin: 0px;
+        color: cadetblue;
+    }
+
+    #infoTable p.classPQuantity {
+        margin: 0px;
+        color: blue;
+    }
+
+    #infoTable p.classPThanhTien {
+        margin: 0px;
+        color: red;
+    }
+    
+    #infoTable th {
+        vertical-align: middle;
+    }
+    
+    #infoTable thead th {
+        border-bottom: 2px solid black;
+    }
+
+    #infoTable td {
+        vertical-align: middle;
+    }
+
+</style>
+
+<link href="/css/Bootstrapv4.1.1/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+@await Component.InvokeAsync(
+                        DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.STR, new
+                        {
+                        strPart = "css"
+                        ,
+                        strViewName = DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.Default.STR
+                        })
+
+}
+
+@section ScriptsJavaScript{
+    
+    <script type='text/javascript'>
+            $('#infoTable').on('click', 'tbody tr', function(event) {
+          $(this).addClass('highlight').siblings().removeClass('highlight');
+        });
+
+    </script>
+
+<script type="text/javascript">
+    function showConfirm() {
+        return confirm(@Html.Raw(ViewBag.strConfirmJs));
+    }
+</script>
+
+  @if(ViewBag.objAddJSConfirm!=null) {
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    function showConfirm() {
+      var strHref = "#";
+
+      if (confirm(@Html.Raw(ViewBag.strConfirmJs))) {
+        strHref = '@ViewBag.strNewHref';
+      } else {
+        //document.getElementById("idBtnCreate").href = '#';
+      }
+
+      @*document.getElementById('@ViewBag.strIdButtonCreate').href = strHref;*@
+    }
+</script>
+
+  }
+
+@await Component.InvokeAsync(
+                        DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.STR, new
+                        {
+                        strPart = "js"
+                        ,
+                        strViewName = DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.Default.STR
+                        })
+
+@await Component.InvokeAsync(
+                        DNQT.ToolCommon.QTConstants.Components.UpdateOneOrderDetail.STR, new
+                        {
+                        strPart = "js"
+                        ,
+                        strViewName = DNQT.ToolCommon.QTConstants.Components.UpdateOneOrderDetail.Default.STR
+                        })
+
+@{
+    strTemp = Url.Action(nameof(DNQT.AdminApp.Controllers.OrderController.JsonResultDeleteDetailById));
+}
+
+<script type="text/javascript">
+
+    function jsDeleteDetailById(intId) {
+
+          if (confirm(@Html.Raw(ViewBag.strConfirmJs))) {
+              $.ajax({
+                type: 'GET',
+                url: '@strTemp',
+                data: {intId: intId},
+                dataType: 'json',
+                success: function (res) {
+                    jsShowResultDeleteDetailById(res);
+                }
+            });
+          } else {
+            //alert('no id' + intId);
+          }
+
+    }
+
+    function jsShowResultDeleteDetailById(resultJson) {
+        alert(resultJson.strMess);
+        location.reload();
+    }
+
+</script>
+
+<script type="text/javascript">
+
+</script>
+
+}
+
+<div class="container-fluid">
+    <h1 class="mt-0">Danh sách</h1>
+    <ol class="breadcrumb my-1">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+
+        <li class="breadcrumb-item">
+
+            @{
+                strTemp = nameof(DNQT.AdminApp.Controllers.OrderController);
+                string strController = strTemp.Substring(0, strTemp.LastIndexOf("Controller"));
+                string strAction = nameof(DNQT.AdminApp.Controllers.OrderController.Index);
+
+                string strBreadcrumbBack = ViewBag.strBreadcrumbBack;
+
+            }
+            @Html.ActionLink(strBreadcrumbBack,strAction,strController
+            , new {intPageIndex = ViewBag.IntPageIndex,intIdRowHighlight = ViewBag.IntIdToBack})
+
+        </li>
+
+        <li class="breadcrumb-item active">@Html.Raw(ViewBag.strBreadcrumbCurrent)</li>
+    </ol>
+
+    <div class="card my-1">
+
+        @await Component.InvokeAsync(
+        DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.STR, new
+        {
+        strPart = "html"
+        ,
+        strViewName = DNQT.ToolCommon.QTConstants.Components.AddToOrderDetail.Default.STR
+        })
+
+    </div>
+
+    @if (Model.TOneItem.Rows.Count>0)
+    {
+        
+    <div class="card my-1">
+        <div class="card-body p-1">
+            
+            @{
+                var mDisplay = (DNQT.ViewModels.Admin.Order.DisplayColumn_VMDataTable)ViewBag.MDisplay;
+            }
+            
+            @if (mDisplay.StrNoteTable != "")
+            {
+                <p>@mDisplay.StrNoteTable</p>
+            }
+
+            @Html.Raw(ViewBag.strDivDetailOrder)
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-striped"  id="infoTable">
+                    
+                    <thead>
+                        @await Component.InvokeAsync(
+                        DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.STR, new
+                        {
+                        LstStringColumnCollapse = mDisplay.LstStringColumnCollapse
+                        ,
+                        dt = Model.TOneItem
+                        ,
+                        LstStringColumnAddToEnd=new List<string>(){"Thao<br>tác"}
+                        ,
+                        strViewName = DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.Default.STR
+                        })
+                    </thead>
+
+                    <tbody>
+                        @foreach (System.Data.DataRow item in Model.TOneItem.Rows)
+                        {
+                            string strId = item[mDisplay.StrNameColumnIdMain].ToString();
+
+                            string strIdRowTrById="IdRowTrOneDetail"+strId;
+                            string strStyleHtmlTr = $" class='align-middle'";
+                            
+                            string strActionName = nameof(DNQT.AdminApp.Controllers.OrderController.Detail);
+                            string strLink = Url.Action(strActionName, new { intId = strId });
+                            mDisplay.LstStringHtmlAddToLink = new List<string>(){
+                                    $"href='#{strIdRowTrById}' class='text-decoration-none'"
+                                    };
+
+                            <tr @Html.Raw(strStyleHtmlTr) id="@strIdRowTrById">
+                                
+                                <vc:html-body-table mdisplay="@mDisplay"
+                                                dt="@Model.TOneItem"
+                                                datarow="@item" str-view-name="Default"></vc:html-body-table>
+
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a href='#idDivSuaViThuoc' class='text-decoration-none' onclick="jsShowUpdateOneDetailOrder(@strId,'@strIdRowTrById')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-pencil-square mx-1" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg>
+                                        </a>
+
+
+                                        @{
+                                            {
+                                                //string strActionDelete = nameof(DNQT.AdminApp.Controllers.OrderController.DeleteDetail);
+                                                //string strLinkDelete = Url.Action(strActionDelete, new { intId = strId });
+
+                                                <a href='#' class='text-decoration-none' onclick="jsDeleteDetailById(@strId)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="orange" class="bi bi-trash3-fill mx-1" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                    </svg>
+                                                </a>
+
+                                            }
+                                        }
+
+                                    </div>
+                                </td>
+
+                                @{
+                                    {
+                                        string strStyleHtmlTdAlignCenter = "style=\"text-align: center\"";
+                                        string strActionDelete = nameof(DNQT.AdminApp.Controllers.OrderController.DeleteDetail);
+
+                                        if (strStyleHtmlTdAlignCenter == strActionDelete)
+                                        {
+                                            <td @Html.Raw(strStyleHtmlTdAlignCenter)>
+                                                @Html.ActionLink("Sửa", "Edit", new { id = strId }) |
+
+                                                @Html.ActionLink("Xóa", @strActionDelete, new { IntIdInput = strId, IntIdToBack=ViewBag.IntIdToBack }
+                                ,new {onclick=$"return confirm({@Html.Raw(ViewBag.strConfirmJs)});"}) |
+                                                @*
+                                                    <a asp-action="@strActionDelete"
+                                                    asp-route-id="@item[StrNameColumnIdMain].ToString()"
+                                                    onclick="return confirm(@Html.Raw(ViewBag.strConfirmJs));">Xóa</a>
+                                                *@
+
+                                                @*
+                                                    <a asp-action="@strActionDelete" asp-route-id="@item[StrNameColumnIdMain].ToString()"
+                                                    onclick="showConfirm()">Xóa</a> |
+
+                                                    <a>
+                                                    <form asp-action="@strActionDelete">
+                                                    <input value="@strId" type="hidden" />
+                                                    <input type="submit" value="Xóa" class="btn btn-link" />
+                                                    </form>
+                                                    </a>
+                                                *@
+                                            </td>
+
+                                        }
+                                    }
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+            @Html.Raw(ViewBag.strDivDetailOrder)
+
+            @if (mDisplay.StrNoteTable != "")
+            {
+                <p>@mDisplay.StrNoteTable</p>
+            }
+
+        </div>
+
+    </div>
+
+    }
+
+    <div class="card my-1">
+
+        @await Component.InvokeAsync(
+        DNQT.ToolCommon.QTConstants.Components.UpdateOneOrderDetail.STR, new
+        {
+        strPart = "html"
+        ,
+        strViewName = DNQT.ToolCommon.QTConstants.Components.UpdateOneOrderDetail.Default.STR
+        })
+
+    </div>
+
+</div>

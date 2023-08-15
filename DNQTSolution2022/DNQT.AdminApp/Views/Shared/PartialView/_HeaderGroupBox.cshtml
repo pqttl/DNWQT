@@ -1,0 +1,28 @@
+﻿@model String[]
+@{
+    var strName = DNQT.ToolCommon.QTConstants.PartialView._HeaderGroupBox.STR;
+    if (strName == "")
+    {
+    }
+}
+
+@*<div class="position-absolute top-0 start-0  translate-middle-y d-flex justify-content-start">
+    <h6 class="opacity-0">1</h6>
+    <h6 class="bg-white text-white">.</h6>
+
+    @foreach (var item in Model)
+    {
+        <h7 class="bg-white">@item</h7>
+    }
+
+    <h6 class="bg-white text-white">.</h6>
+</div>*@
+
+<div class="position-absolute top-0 start-0  translate-middle-y d-flex justify-content-start">
+
+    @foreach (var item in Model)
+    {
+        <h7 class="bg-white px-1" style=" margin-left: 6px; ">@item</h7>
+    }
+
+</div>

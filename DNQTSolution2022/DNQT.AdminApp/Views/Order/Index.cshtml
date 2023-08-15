@@ -1,0 +1,249 @@
+﻿@model DNQT.ViewModels.Common.PagedResult<System.Data.DataTable>
+@addTagHelper *, DNQT.AdminApp
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string JsonResultAddOrder = nameof(DNQT.AdminApp.Controllers.OrderController.JsonResultAddOrder);
+
+    string strTemp = "";
+}
+
+@section ScriptsCSS{
+    
+    <style type='text/css'>
+        .table tbody tr.highlight td {
+            background-color: #bce2e5;
+        }
+    </style>
+    
+<style type="text/css">
+    a p.classPTongLoai {
+        margin: 0px;
+        color: cadetblue;
+    }
+
+    a p.classPQuantity {
+        margin: 0px;
+    }
+
+    a p.classPThanhTien {
+        margin: 0px;
+        color: red;
+    }
+
+    #infoTable th {
+        vertical-align: middle;
+    }
+    
+    #infoTable thead th {
+        border-bottom: 2px solid black;
+    }
+
+    #infoTable td {
+        vertical-align: middle;
+    }
+
+</style>
+
+<link href="/css/Bootstrapv4.1.1/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+}
+
+@section ScriptsJavaScript{
+    
+    <script type='text/javascript'>
+            $('#infoTable').on('click', 'tbody tr', function(event) {
+          $(this).addClass('highlight').siblings().removeClass('highlight');
+        });
+
+    </script>
+    
+<script src="/js/scriptsFunctionCommon.js"></script>
+
+    <script type="text/javascript">
+
+        function @(JsonResultAddOrder)(resultJson) {
+
+            if (resultJson.blnStatusJs == false) {
+                alert(resultJson.strMess);
+                return;
+            }
+
+            location.href = resultJson.strHref;
+
+        }
+
+    </script>
+    
+<script type="text/javascript">
+
+function voidAfterUseAjax(resultJson) {
+
+    if (resultJson.strNameVoid =='@JsonResultAddOrder') {
+        @(JsonResultAddOrder)(resultJson);
+        return;
+    }
+    
+}
+
+</script>
+
+@{
+    strTemp = Url.Action(nameof(DNQT.AdminApp.Controllers.OrderController.JsonResultAddOrder));
+}
+    
+    <script type="text/javascript">
+
+        document.getElementById("idAAddNew").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            var arrayStrInput = [];
+            arrayStrInput.push('');
+            
+            voidCallAjaxGetByUrlArrayInput('@strTemp',arrayStrInput);
+
+        });
+
+    </script>
+    
+    @if (ViewBag.StrIdToClickWhenLoaded != null)
+    {
+
+        <script type="text/javascript">
+
+            document.getElementById("@ViewBag.StrIdToClickWhenLoaded").click();
+
+        </script>
+
+    }
+
+}
+
+<div class="container-fluid">
+    <ol class="breadcrumb my-1">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+
+        @{
+            string strBreadcrumbCurrent = $"Danh sách {@Model.IntTotalRecords} đơn hàng - {@Model.IntSumPage} trang ({@ViewBag.intPageSize} dữ liệu/ 1 trang)";
+        }
+        <li class="breadcrumb-item active">@strBreadcrumbCurrent</li>
+
+    </ol>
+    <div class="card my-1">
+        <div class="card-header">
+            <a class="btn btn-primary" href="#idAAddNew" id="idAAddNew">Thêm đơn hàng</a> 
+        </div>
+
+        <div class="card-body p-1">
+
+            <vc:pager result="@Model"></vc:pager>
+
+            @{
+                var mDisplay = (DNQT.ViewModels.Admin.Order.DisplayColumn_VMDataTable)ViewBag.MDisplay;
+            }
+            
+            @if (mDisplay.StrNoteTable != "")
+            {
+                <p>@mDisplay.StrNoteTable</p>
+            }
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-striped" id="infoTable">
+
+                    <thead>
+                        @await Component.InvokeAsync(
+                        DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.STR, new
+                        {
+                        LstStringColumnCollapse = mDisplay.LstStringColumnCollapse
+                        ,
+                        dt = Model.TOneItem
+                        ,
+                        LstStringColumnAddToEnd=new List<string>(){}
+                        ,
+                        strViewName = DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.Default.STR
+                        })
+                    </thead>
+
+
+                    <tbody>
+                        @foreach (System.Data.DataRow item in Model.TOneItem.Rows)
+                        {
+                            string strStyleHtmlTr = " class='align-middle'";
+                            string strId = item[mDisplay.StrNameColumnIdMain].ToString();
+                            if (strId == ("" + ViewBag.intIdRowHighlight))
+                            {
+                                strStyleHtmlTr = " class='highlight align-middle'";
+                            }
+
+                            int intIndexRow = Model.TOneItem.Rows.IndexOf(item);
+                            string strIdButtonLastRow = "";
+                            if(intIndexRow+1>=Model.TOneItem.Rows.Count){
+                                strIdButtonLastRow = $"id='idA{JsonResultAddOrder}'";
+                            }
+
+                            string strActionName = nameof(DNQT.AdminApp.Controllers.OrderController.Detail);
+                            string strLink = Url.Action(strActionName, new { intId = strId });
+                            mDisplay.LstStringHtmlAddToLink = new List<string>(){
+                                    $"href='{strLink}' {strIdButtonLastRow} class='text-decoration-none'"
+                                    };
+
+                            <tr @Html.Raw(strStyleHtmlTr)>
+
+                                <vc:html-body-table mdisplay="@mDisplay"
+                                                dt="@Model.TOneItem"
+                                                datarow="@item" str-view-name="Default"></vc:html-body-table>
+
+                                @{
+                                string strStyleHtmlTdAlignCenter = "style=\"text-align: center\"";
+                                }
+
+                                @if (strStyleHtmlTdAlignCenter == strActionName)
+                                {
+                                    <td @Html.Raw(strStyleHtmlTdAlignCenter)>
+                                        <a href="@Url.Action(strActionName, new { intId = strId })"
+                                   class="btn btn-primary btn-sm pb-2" title="Xem và sửa">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"></path>
+                                            </svg>
+                                        </a>
+                                    </td>
+
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        @await Component.InvokeAsync(
+                        DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.STR, new
+                        {
+                        LstStringColumnCollapse = mDisplay.LstStringColumnCollapse
+                        ,
+                        dt = Model.TOneItem
+                        ,
+                        LstStringColumnAddToEnd=new List<string>(){}
+                        ,
+                        strViewName = DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.Default.STR
+                        })
+                    </tfoot>
+
+                </table>
+            </div>
+            
+            @if (mDisplay.StrNoteTable != "")
+            {
+                <p>@mDisplay.StrNoteTable</p>
+            }
+
+            @{
+                string strNameFolder = DNQT.ToolCommon.QTConstants.Components.Pager.STR;
+            }
+            @await Component.InvokeAsync(strNameFolder, Model)
+
+        </div>
+
+    </div>
+</div>

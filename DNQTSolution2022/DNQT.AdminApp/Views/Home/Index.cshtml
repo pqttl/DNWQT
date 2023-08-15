@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutBootstrapv5.cshtml";
+    
+}
+
+@section ScriptsCSS{
+
+<link rel="stylesheet" href="/css/bootstrapDatepicker1.9.0/bootstrap-datepicker.min.css">
+
+}
+
+@section ScriptsJavaScript{
+    
+<script src="/js/bootstrapDatepicker1.9.0/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrapDatepicker1.9.0/bootstrap-datepicker.vi.min.js"></script>
+
+<script src="/js/Chart.jsv4.0.1/chart.js"></script>
+
+<script src="/js/scriptsFunctionCommon.js"></script>
+
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView.Home._PVIndex.PATH
+        , new string[] {"js" })
+
+<script type="text/javascript">
+
+</script>
+
+}
+
+        @await Html.PartialAsync(DNQT.ToolCommon.QTConstants.PartialView.Home._PVIndex.PATH
+        , new string[] {"html" })

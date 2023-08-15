@@ -1,0 +1,29 @@
+﻿@model (List<string> LstStringColumnCollapse,System.Data.DataTable dt,List<string> LstStringColumnAddToEnd)
+
+@{
+    var strNameComponent = DNQT.ToolCommon.QTConstants.Components.HtmlTrHeaderFooterByDataTable.Default.STR;
+    if (strNameComponent == "")
+    {
+    }
+
+    Func<System.Data.DataTable, Microsoft.AspNetCore.Html.IHtmlContent> htmlTrHeaderFooter =
+    @<tr class="text-center align-middle">
+        @foreach (System.Data.DataColumn dc in item.Columns)
+            {
+                if (@Model.LstStringColumnCollapse.Contains(dc.ColumnName))
+                {
+                    continue;
+                }
+                <th>@Html.Raw(dc.ColumnName)</th>
+            }
+
+            @foreach (string str in @Model.LstStringColumnAddToEnd)
+            {
+                <th>@Html.Raw(str)</th>
+            }
+
+
+        </tr>
+; }
+
+@htmlTrHeaderFooter(@Model.dt)
